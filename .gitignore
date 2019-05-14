@@ -3,3 +3,6 @@ node_modules/
 
 # Don't track temp backup files
 *.*~
+
+# Don't track log files
+*.log
