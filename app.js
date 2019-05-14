@@ -7,8 +7,6 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-
     var jsonData = {rss:"data is not yet loaded. Make async"};
     
     var parseString = xml2js.parseString;    
@@ -22,17 +20,40 @@ app.get('/', (req, res) => {
 	    console.dir(result);
 	    console.log(util.inspect(result, false, null))
 	    jsonData = JSON.stringify(result);
-	    console.log(jsonData);
-
-	    jsonData = JSON.parse(jsonData);
-
+//	    console.log(jsonData);
+	    console.log("Parsed XML Data from https://www.esrl.noaa.gov/ feed [OK]");
+	    console.log("Waiting for requests..");
 
 	});
     })
 
 
+app.get('/', (req, res) => {
+
+//    console.log(JSON.stringify(jsonData));
+
     // TODO: ASYNC - because thisjsoData is not yet ready...
-    res.send('Hello World! The PPM this week is: XXX\n' + jsonData["rss"]);
+    console.log("1");
+	jsonData = JSON.parse(JSON.stringify(jsonData));
+
+    var parsedJson = JSON.parse(jsonData);
+
+
+    var rss = parsedJson.rss;
+    console.log("\n\nRSS: ==> " + JSON.stringify(rss) );
+
+    var channel = JSON.parse(JSON.stringify(rss.channel));
+    console.log("\n\nCHANNEL: ==> " + JSON.stringify(channel) );;
+
+// Channl is the colllection...
+    var title = channel[0].title;
+    console.log("TITLE: ==> " + title );
+
+    var item = channel[0];
+			  
+    res.send('\n\nHello World! The PPM this week is: XXX\n' + title + " ==> " + JSON.stringify( item)  );
+	
+
 
 
 })
