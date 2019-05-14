@@ -56,7 +56,7 @@ get.concat('https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/rss.xml', function
 //	console.log("Item KEYS ==> [%s]", Object.keys(item));
 
 //	console.log(item);
-//	console.log("Item [%s] Description: [%s] \n\n", item.title.value, item.description.value); 
+	console.log("Item [%s] Description: [%s] \n\n", item.title.value, item.description.value); 
     }
     
 })
