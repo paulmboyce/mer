@@ -8,11 +8,18 @@ const app = express()
 const port = 3000
 
 
-// INIT DATA ON STARTUP
-// TODO: Refactor to daily.
-// ---------------------------------------
 
+// Fiels to extract:
+const TITLE_DAILY_CO2_UPDATE = "DAILY CO2 UPDATE";
+const DESC_DAILY_AVERAGE_CO2_AT_MAUNA_LOA = "DAILY AVERAGE CO2 AT MAUNA LOA";
+
+// INIT DATA ON STARTUP
+// TODO: Refactor to refresh hourly.
+// ---------------------------------------
 var objData = {rss:'data is not yet loaded. Make async'};
+var dailyAvgCO2 = "Not set";
+var dailyAvgCO2PubDate = "Not set";
+
 
 get.concat('https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/rss.xml', function (err, res, xmlData) {
     if (err) throw err
@@ -50,14 +57,27 @@ get.concat('https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/rss.xml', function
     console.log("About to print channel.items.. \n");
     var items= channel.item;
 
+
+    
     var i, item;
     for (i = 0; i < items.length; i++) {
 	item = items[i];
-//	console.log("Item KEYS ==> [%s]", Object.keys(item));
+	//	console.log("Item KEYS ==> [%s]", Object.keys(item));
+	//	console.log(item);
 
-//	console.log(item);
-	console.log("Item [%s] Description: [%s] \n\n", item.title.value, item.description.value); 
+	if (item.title.value.includes(TITLE_DAILY_CO2_UPDATE)  ) {
+	    var description = item.description.value;
+	    console.log("\nFOUND DAILY_AVERAGE_CO2_AT_MAUNA_LOA  [%s] \n\n", description);
+	    var idx = description.indexOf ("PPM");
+	    
+	    
+	    dailyAvgCO2PubDate = item.pubDate.value;
+	    dailyAvgCO2 = description.slice (idx -8 , idx -1).trim();
+	}
+	console.log("\nTitle ==> [%s] \nDescription ==> [%s] \n\n", item.title.value, item.description.value);
+	
     }
+    console.log('\n\nThe latest daily PPM is:  ==> %s ppm [Published %s] \n\n',  dailyAvgCO2, dailyAvgCO2PubDate );
     
 })
 
@@ -65,7 +85,7 @@ get.concat('https://www.esrl.noaa.gov/gmd/webdata/ccgg/trends/rss.xml', function
 app.get('/', (req, res) => {
 
 
-    res.send('\n\nHello World! The PPM this week is: XXX\n  ==> ' + JSON.stringify(objData.rss.channel.title)  );
+    res.send('\n\nThe latest daily CO2 PPM is:  ==>  ' +  dailyAvgCO2 + ' ppm \n\n'  );
 	
 })
        
