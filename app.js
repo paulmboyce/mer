@@ -1,3 +1,14 @@
+/* NOTE: Express 4 - The server is created in ./bin/www */
+/* DEV TESTING: 
+   - node app.js will run this code but not start the webserver 
+   - instead use  : 
+      DEBUG=ppm:* npm start
+   or   
+      npm start
+   or 
+      node ./bin/www
+*/
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
