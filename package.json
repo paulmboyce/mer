@@ -1,16 +1,24 @@
 {
-  "name": "ppm",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "hbs": "~4.0.4",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
-  }
+    "name": "ppm",
+    "description": "CO2 PPM Web App",
+    "version": "0.0.0",
+    "author": "Paul Boyce",
+    "private": true,
+    "main": "index.js",
+    "license": "ISC",
+    "scripts": {
+	"start": "node ./bin/www",
+	"test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+	"fs": "0.0.1-security",
+	"simple-get": "^3.0.3",
+	"xml-js": "^1.6.11",
+	"cookie-parser": "~1.4.4",
+	"debug": "~2.6.9",
+	"express": "~4.16.1",
+	"hbs": "~4.0.4",
+	"http-errors": "~1.6.3",
+	"morgan": "~1.9.1"
+    }
 }
