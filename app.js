@@ -2,9 +2,9 @@
 /* DEV TESTING: 
    - node app.js will run this code but not start the webserver 
    - instead use  : 
-      DEBUG=ppm:* npm start
+      DEBUG=ppm:* npm test      (opens local port 3000 for curl test)
    or   
-      npm start
+      sudo npm start            (opens EC2 instance port 80 for DEV browser render test)
    or 
       node ./bin/www
 */
