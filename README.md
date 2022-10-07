@@ -16,8 +16,8 @@ $ docker build . -t com.bragaboo/mer:latest -t com.bragaboo/mer:0.0.1
 
 # Runs on Machine Port 80 to Docker Container Port 80
 
-```$ docker run -p 80:80 -d com.bragaboo/mer:0.0.1
-
+```
+$ docker run -p 80:80 -d com.bragaboo/mer:0.0.1
 ```
 
 or:
@@ -37,8 +37,8 @@ docker run -p 3001:80 -d com.bragaboo/mer:latest
 #### Runs on BOTH Machine Port 30000/3001 to Docker Container Port 80
 
 ```
-docker run -p 3000:80 -d com.bragaboo/mer:latest
-docker run -p 3001:80 -d com.bragaboo/mer:latest
+$ docker run -p 3000:80 -d com.bragaboo/mer:latest
+$ docker run -p 3001:80 -d com.bragaboo/mer:latest
 ```
 
 http://localhost:3000 works!
