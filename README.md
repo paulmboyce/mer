@@ -53,4 +53,4 @@ $ docker logs a1caab7d4ea0
 
 $ curl -i localhost:80
 
-Or open in browser: ---> htpp://localhost:80
+Or open in browser: ---> http://localhost:80
