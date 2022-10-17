@@ -71,3 +71,162 @@ $ curl -i localhost:80
 ```
 
 Or open in browser: ---> http://localhost:80
+
+## Building with Copilot:
+
+Copilot allows to build a Docker image, upload to ECR, create a full Loadbalned Cluster and provision services in EC2 Fargate containers.
+The advantage of Copilot is you can get a full infrastructure created automatically by AWS.
+You can then keep the infrastucture and deploy updates to image Github (CircleCI, or other CI/CD pipeline tool) into this infrastructure.
+Or, yo can just destroy the entire infrastructure, and recrete again as needed.
+This allows a lot of options to get "Best Practice" arctitecture from AWS with minimal effort.
+YOu can then explore what AWS created and reuse it, or recreate from scratch.
+Generally the process of proviioning an infrastructure is a one step, followed by subsequent iterations.
+NOTE: Copilot creates mainfest files (in the copilot folder) which are configurable.
+Also, in theory you can use Copilot to redeploy a Docker image without rebuilding it using the image.location prop.
+I remaiin t see how useful Copilot is for redeployments. It is possible that Coplot could be plugged directly to the CI/CD pipeline.
+
+### Commands:
+
+### Build and Deploy a Service intot a Cluster one go (via Copilot):
+
+This BUILDs everything, creates copilot folder with all configuration, and deploys infractructure with image and provisions with URL.
+(Deploys your container app on AWS App Runner or Amazon ECS on AWS Fargate, complete with a networking stack and roles.)
+
+```
+$ copilot init --app mer-app --name ppm-service --type 'Load Balanced Web Service' --dockerfile './Dockerfile' --port 80 --deploy
+```
+
+SEE: https://aws.github.io/copilot-cli/docs/commands/init/
+
+### Build Service into a Cluster (via Copilot):
+
+Here's a simpler version that builds the copiot manifests and Docker Image, but does not deploy the infrastructure:
+
+```
+$ copilot init \
+  --app mer-app \
+  --name ppm-service \
+  --image 369368976179.dkr.ecr.eu-west-1.amazonaws.com/bragaboo-mer:latest \
+  --type 'Load Balanced Web Service'  \
+  --port 80
+```
+
+### Create Initial Environment, Roles etc (via Copilot):
+
+```
+$ copilot env init
+```
+
+Environment name: development
+Credential source: Enter temporary credentials
+AWS Access Key ID: **\*\***\*\*\*\***\*\***ZQ7T
+AWS Secret Access Key: **\*\***\*\*\*\***\*\***18TE
+AWS Session Token:
+Region: eu-west-1
+
+Would you like to use the default configuration for a new environment? - A new VPC with 2 AZs, 2 public subnets and 2 private subnets - A new ECS Cluster - New IAM Roles to manage services and jobs in your environment
+[Use arrows to move, type to filter]
+
+> Yes, use default.
+
+    Yes, but I'd like configure the default resources (CIDR ranges, AZs).
+    No, I'd like to import existing resources (VPC, subnets).
+
+OUTPUT:
+Wrote the manifest for environment development at copilot/environments/development/manifest.yml
+
+### Deploy the Environment (via Copilot):
+
+This takes the configurations in your environment manifest (in copilot folder) and deploys your environment infrastructure:
+
+```
+$ copilot env deploy
+```
+
+### Define the service (via Copilot):
+
+Define the service (creates manifest in /copilot/{service-name}/manifest.yml):
+
+```
+$ copilot svc init \
+  --name ppm-service
+  --image 369368976179.dkr.ecr.eu-west-1.amazonaws.com/bragaboo-mer:latest
+  --type 'Load Balanced Web Service'
+  --port 80
+```
+
+### Deploy the Service (via Copilot):
+
+Deploy the service (WITHOUT rebuilding the image):
+$ copilot svc deploy
+
+### List Infrastructure (via Copilot):
+
+This LISTs the infrastructure deployed for the app:
+$ copilot svc show
+
+### Create Cloudformation Templates (via Copilot):
+
+Optionally, create local copies of the CloudFormation template(s) used to deploy our service to an environment.
+
+```
+$ copilot svc package --output-dir ./infrastructure
+```
+
+### Delete Infrastructure (via Copilot):
+
+This DESTROYs the infrastructure for the app:
+
+```
+$ copilot app delete
+```
+
+### Sample "as built" Configuration from Copilot:
+
+```
+$ copilot svc show
+```
+
+Only found one application, defaulting to: app-mer
+Only found one service, defaulting to: name-mer
+About
+
+Application app-mer
+Name name-mer
+Type Load Balanced Web Service
+
+Configurations
+
+Environment Tasks CPU (vCPU) Memory (MiB) Platform Port
+
+---
+
+test 1 0.25 512 LINUX/X86_64 80
+
+Routes
+
+Environment URL
+
+---
+
+test http://app-m-Publi-AAAAAAAAAAAA-111111111.eu-west-1.elb.amazonaws.com
+
+Service Discovery
+
+Environment Namespace
+
+---
+
+test name-mer.test.app-mer.local:80
+
+Variables
+
+Name Container Environment Value
+
+---
+
+COPILOT_APPLICATION_NAME name-mer test app-mer
+COPILOT_ENVIRONMENT_NAME " " test
+COPILOT_LB_DNS " " app-m-Publi-AAAAAAAAAAAA-111111111.eu-west-1.elb.amazonaws.com
+COPILOT_SERVICE_DISCOVERY_ENDPOINT " " test.app-mer.local
+COPILOT_SERVICE_NAME " " name-mer
