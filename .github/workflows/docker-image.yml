@@ -2,15 +2,13 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["release-image"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag com.bragaboo/mer:latest --tag com.bragaboo/mer:0.0.1-$(date +%s)
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag com.bragaboo/mer:latest --tag com.bragaboo/mer:0.0.1-$(date +%s)
