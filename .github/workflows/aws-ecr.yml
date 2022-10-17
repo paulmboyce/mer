@@ -35,13 +35,15 @@ on:
 env:
   AWS_REGION: eu-west-1 #MY_AWS_REGION # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: bragaboo-mer #MY_ECR_REPOSITORY # set this to your Amazon ECR repository name
-  ECS_SERVICE: MY_ECS_SERVICE # set this to your Amazon ECS service name
-  ECS_CLUSTER: MY_ECS_CLUSTER # set this to your Amazon ECS cluster name
+  ECS_SERVICE: ppm-service #MY_ECS_SERVICE # set this to your Amazon ECS service name
+  ECS_CLUSTER: mer-app-development-Cluster-eEXFvQE0Gu85 #MY_ECS_CLUSTER # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION:
-    MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+    .aws/mer-app-development-ppm-service-task-defn
+    #  MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
     # file, e.g. .aws/task-definition.json
   CONTAINER_NAME:
-    MY_CONTAINER_NAME # set this to the name of the container in the
+    ppm-service
+    # MY_CONTAINER_NAME # set this to the name of the container in the
     # containerDefinitions section of your task definition
 
 permissions:
