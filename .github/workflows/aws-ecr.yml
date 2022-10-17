@@ -38,7 +38,7 @@ env:
   ECS_SERVICE: ppm-service #MY_ECS_SERVICE # set this to your Amazon ECS service name
   ECS_CLUSTER: mer-app-development-Cluster-eEXFvQE0Gu85 #MY_ECS_CLUSTER # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION:
-    .aws/mer-app-development-ppm-service-task-defn
+    .aws/mer-app-development-ppm-service-task-defn.json
     #  MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
     # file, e.g. .aws/task-definition.json
   CONTAINER_NAME:
