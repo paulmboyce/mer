@@ -255,3 +255,19 @@ COPILOT_ENVIRONMENT_NAME " " test
 COPILOT_LB_DNS " " app-m-Publi-AAAAAAAAAAAA-111111111.eu-west-1.elb.amazonaws.com
 COPILOT_SERVICE_DISCOVERY_ENDPOINT " " test.app-mer.local
 COPILOT_SERVICE_NAME " " name-mer
+
+# Infrastructure - Cloud Formation Templates
+
+## Create CF Templates for Environments and Services:
+
+### CF for an Environment:
+
+```
+copilot env package -n development --output-dir ./cf-infrastructure/env/development
+```
+
+### CF for a Service:
+
+```
+copilot svc package -n ppm-service -e development --output-dir ./cf-infrastructure/service
+```
