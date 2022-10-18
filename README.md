@@ -90,6 +90,8 @@ I remaiin t see how useful Copilot is for redeployments. It is possible that Cop
 1. Use Copilot initial pass to create the manifests
 2. Can stop/start service fairly quickly:
 
+#### Init app:
+
 ```
 $ copilot init \
   --app mer-app \
@@ -97,8 +99,17 @@ $ copilot init \
   --type 'Load Balanced Web Service'
 ```
 
+#### Init env (accept defaults)
+
 ```
-$ copilot deploy
+$ copilot env init --name development --region eu-west-1
+```
+
+#### Deploy env + service
+
+```
+$ copilot env deploy --name development
+$ copilot svc deploy --name ppm-service --env development
 ```
 
 NOTE: Copilot autogenerates names for:
@@ -206,55 +217,17 @@ This DESTROYs the infrastructure for the app:
 $ copilot app delete
 ```
 
-### Sample "as built" Configuration from Copilot:
+### View Running Service Config:
 
 ```
 $ copilot svc show
 ```
 
-Only found one application, defaulting to: app-mer
-Only found one service, defaulting to: name-mer
-About
+### View Running Service Logs:
 
-Application app-mer
-Name name-mer
-Type Load Balanced Web Service
-
-Configurations
-
-Environment Tasks CPU (vCPU) Memory (MiB) Platform Port
-
----
-
-test 1 0.25 512 LINUX/X86_64 80
-
-Routes
-
-Environment URL
-
----
-
-test http://app-m-Publi-AAAAAAAAAAAA-111111111.eu-west-1.elb.amazonaws.com
-
-Service Discovery
-
-Environment Namespace
-
----
-
-test name-mer.test.app-mer.local:80
-
-Variables
-
-Name Container Environment Value
-
----
-
-COPILOT_APPLICATION_NAME name-mer test app-mer
-COPILOT_ENVIRONMENT_NAME " " test
-COPILOT_LB_DNS " " app-m-Publi-AAAAAAAAAAAA-111111111.eu-west-1.elb.amazonaws.com
-COPILOT_SERVICE_DISCOVERY_ENDPOINT " " test.app-mer.local
-COPILOT_SERVICE_NAME " " name-mer
+```
+$ copilot svc logs
+```
 
 # Infrastructure - Cloud Formation Templates
 
