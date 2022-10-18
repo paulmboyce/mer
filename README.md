@@ -72,7 +72,7 @@ $ curl -i localhost:80
 
 Or open in browser: ---> http://localhost:80
 
-## Building with Copilot:
+# Building with Copilot:
 
 Copilot allows to build a Docker image, upload to ECR, create a full Loadbalned Cluster and provision services in EC2 Fargate containers.
 The advantage of Copilot is you can get a full infrastructure created automatically by AWS.
@@ -85,7 +85,34 @@ NOTE: Copilot creates mainfest files (in the copilot folder) which are configura
 Also, in theory you can use Copilot to redeploy a Docker image without rebuilding it using the image.location prop.
 I remaiin t see how useful Copilot is for redeployments. It is possible that Coplot could be plugged directly to the CI/CD pipeline.
 
-### Commands:
+## Summary:
+
+1. Use Copilot initial pass to create the manifests
+2. Can stop/start service fairly quickly:
+
+```
+$ copilot init \
+  --app mer-app \
+  --name ppm-service \
+  --type 'Load Balanced Web Service'
+```
+
+```
+$ copilot deploy
+```
+
+NOTE: Copilot autogenerates names for:
+
+- ECS Cluster Name
+- ECS Service Name
+- 2x Role Names (defined in Task Defn)
+
+So... need to update for CI/CD Pipeline:
+
+- - .aws/mer-app-development-ppm-service-task-defn.json
+- - .github/workflows/aws-ecr.yml )
+
+## Commands:
 
 ### Build and Deploy a Service intot a Cluster one go (via Copilot):
 
@@ -106,9 +133,7 @@ Here's a simpler version that builds the copiot manifests and Docker Image, but 
 $ copilot init \
   --app mer-app \
   --name ppm-service \
-  --image 369368976179.dkr.ecr.eu-west-1.amazonaws.com/bragaboo-mer:latest \
-  --type 'Load Balanced Web Service'  \
-  --port 80
+  --type 'Load Balanced Web Service'
 ```
 
 ### Create Initial Environment, Roles etc (via Copilot):
@@ -149,10 +174,10 @@ Define the service (creates manifest in /copilot/{service-name}/manifest.yml):
 
 ```
 $ copilot svc init \
-  --name ppm-service
-  --image 369368976179.dkr.ecr.eu-west-1.amazonaws.com/bragaboo-mer:latest
-  --type 'Load Balanced Web Service'
-  --port 80
+  --name ppm-service \
+  --image 369368976179.dkr.ecr.eu-west-1.amazonaws.com/bragaboo-mer:latest \
+  --type 'Load Balanced Web Service' \
+  --port 80 \
 ```
 
 ### Deploy the Service (via Copilot):
