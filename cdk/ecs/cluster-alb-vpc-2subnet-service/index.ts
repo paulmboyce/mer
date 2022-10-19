@@ -2,6 +2,7 @@ import ecs = require('aws-cdk-lib/aws-ecs');
 import ec2 = require('aws-cdk-lib/aws-ec2');
 import elbv2 = require('aws-cdk-lib/aws-elasticloadbalancingv2');
 import cdk = require('aws-cdk-lib');
+import ecr = require('aws-cdk-lib/aws-ecr');
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'sample-aws-ecs-integ-ecs');
@@ -16,9 +17,17 @@ cluster.addCapacity('DefaultAutoScalingGroup', {
 
 // Create Task Definition
 const taskDefinition = new ecs.Ec2TaskDefinition(stack, 'TaskDef');
+
+const repository = ecr.Repository.fromRepositoryName(
+    stack,
+    "bragaboo-merRepository",
+    "bragaboo-mer"
+  )
+
 const container = taskDefinition.addContainer('web', {
-  image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
-  memoryLimitMiB: 256,
+//  image: ecs.ContainerImage.fromRegistry("amazon/amazon-ecs-sample"),
+image: ecs.ContainerImage.fromEcrRepository(repository, "latest"),
+memoryLimitMiB: 256,
 });
 
 container.addPortMappings({
