@@ -1,3 +1,5 @@
+# SETUP - Env and Roles:
+
 ## Setup ENV
 
 ```
@@ -20,6 +22,8 @@ aws iam create-role --role-name AWSCookbookLambdaRole --assume-role-policy-docum
 ```
 aws iam attach-role-policy --role-name AWSCookbookLambdaRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 ```
+
+# DOCKER - BUILD & DEPLOY IMAGE:
 
 ## Get ECR Login and pass to AWS docker
 
@@ -68,6 +72,8 @@ LAMBDA_ARN=$(aws lambda create-function \
     --code ImageUri=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/aws-cookbook506repo:latest \
     --output text --query FunctionArn)
 ```
+
+# TESTING:
 
 ## Check Lambda Function State (expect ACTIVE):
 
