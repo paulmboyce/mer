@@ -29,7 +29,10 @@ aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_A
 
 ## Build Image
 
+NOTE: Building on mac I needed to add --platform=linux/amd64 to work on Lambda
+
 ```
+docker build -t aws-cookbook506-image .
 docker build --platform=linux/amd64 -t aws-cookbook506-image .
 ```
 
