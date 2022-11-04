@@ -73,8 +73,22 @@ aws lambda get-function --function-name $LAMBDA_ARN \
    --output text --query Configuration.State
 ```
 
-## Invoke Function:
+## Invoke Function (Lambda):
 
 ```
 aws lambda invoke --function-name $LAMBDA_ARN response.json && cat response.json
+```
+
+## Test (local):
+
+With Docker running, start docker image (runs on port 9000 connecting to 8080 in container):
+
+```
+docker run -p 9000:8080 aws-cookbook506-image:latest
+```
+
+In a separate terminal window, execute the handler with some payload event data:
+
+```
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"payload":"hello world!"}'
 ```
